@@ -4,7 +4,9 @@
  */
 package com.usac.ipc;
 
+import com.usac.ipc.admin.FDepartamento;
 import com.usac.ipc.admin.FKiosko;
+import com.usac.ipc.admin.FMunicipio;
 import com.usac.ipc.admin.FRegion;
 import com.usac.ipc.user.Login;
 import com.usac.ipc.user.Registro;
@@ -22,6 +24,7 @@ public class Main extends javax.swing.JFrame{
         initComponents();
         mnRegistro.setVisible(false);
         mnAdmin.setVisible(false);
+        mmDeptoMuni.setVisible(false);
     }
 
     /**
@@ -40,8 +43,10 @@ public class Main extends javax.swing.JFrame{
         mnAdmin = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        mmDeptoMuni = new javax.swing.JMenu();
+        mnDepartamentos = new javax.swing.JMenuItem();
+        mnMunicipios = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("USAC-DELIVERY");
@@ -101,18 +106,30 @@ public class Main extends javax.swing.JFrame{
         });
         mnAdmin.add(jMenuItem2);
 
-        jMenuItem3.setText("Manejo de Departamentos y Municipios");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
-            }
-        });
-        mnAdmin.add(jMenuItem3);
-
         jMenuItem4.setText("Reportes");
         mnAdmin.add(jMenuItem4);
 
         jMenuBar1.add(mnAdmin);
+
+        mmDeptoMuni.setText("Departamentos y Municipios");
+
+        mnDepartamentos.setText("Departamentos");
+        mnDepartamentos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnDepartamentosActionPerformed(evt);
+            }
+        });
+        mmDeptoMuni.add(mnDepartamentos);
+
+        mnMunicipios.setText("Municipios");
+        mnMunicipios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnMunicipiosActionPerformed(evt);
+            }
+        });
+        mmDeptoMuni.add(mnMunicipios);
+
+        jMenuBar1.add(mmDeptoMuni);
 
         setJMenuBar(jMenuBar1);
 
@@ -153,10 +170,6 @@ public class Main extends javax.swing.JFrame{
         registro.setVisible(true);
     }//GEN-LAST:event_mnRegistroMouseClicked
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
-
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         FKiosko fkiosko = new FKiosko();
         this.escritorio.add(fkiosko);
@@ -168,6 +181,18 @@ public class Main extends javax.swing.JFrame{
         this.escritorio.add(fregion);
         fregion.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void mnDepartamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnDepartamentosActionPerformed
+        FDepartamento fdepartamento = new FDepartamento();
+        this.escritorio.add(fdepartamento);
+        fdepartamento.setVisible(true);
+    }//GEN-LAST:event_mnDepartamentosActionPerformed
+
+    private void mnMunicipiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnMunicipiosActionPerformed
+        FMunicipio fmunicipio = new FMunicipio();
+        this.escritorio.add(fmunicipio);
+        fmunicipio.setVisible(true);
+    }//GEN-LAST:event_mnMunicipiosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -211,9 +236,11 @@ public class Main extends javax.swing.JFrame{
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenu mmDeptoMuni;
     private javax.swing.JMenu mnAdmin;
+    private javax.swing.JMenuItem mnDepartamentos;
+    private javax.swing.JMenuItem mnMunicipios;
     private javax.swing.JMenu mnRegistro;
     // End of variables declaration//GEN-END:variables
 }

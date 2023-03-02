@@ -106,11 +106,13 @@ public class Login extends javax.swing.JInternalFrame  implements Users {
         // Obtener el menú "Registro" de la barra de menú
         JMenu menuRegistro = menuBar.getMenu(1);
         JMenu menuAdmin = menuBar.getMenu(2);
+        JMenu menuDeptoMuni = menuBar.getMenu(3);
         for(Usuario u : usuarios){
             if(u.getCorreo().equals(txtUsuario.getText())){
                 this.setVisible(false);
                 menuRegistro.setVisible(true);
                 menuAdmin.setVisible(true);
+                menuDeptoMuni.setVisible(true);
             }else{
                 lblMensaje.setText("Usuario No encontrado");
             }

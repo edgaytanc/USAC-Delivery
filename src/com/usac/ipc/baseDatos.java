@@ -4,7 +4,9 @@
  */
 package com.usac.ipc;
 
+import com.usac.ipc.admin.Departamento;
 import com.usac.ipc.admin.Kiosko;
+import com.usac.ipc.admin.Municipio;
 import com.usac.ipc.admin.Region;
 import java.util.ArrayList;
 
@@ -15,6 +17,8 @@ import java.util.ArrayList;
 public interface baseDatos {
     static ArrayList<Kiosko> kiosko = new ArrayList<>();
     static ArrayList<Region> regiones = new ArrayList<>();
+    static ArrayList<Departamento> departamentos = new ArrayList<>();
+    static ArrayList<Municipio> municipios = new ArrayList<>();
     
     //metodos de acceso
     //public void addKiosko(Kiosko k);
