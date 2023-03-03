@@ -8,6 +8,7 @@ import com.usac.ipc.admin.FDepartamento;
 import com.usac.ipc.admin.FKiosko;
 import com.usac.ipc.admin.FMunicipio;
 import com.usac.ipc.admin.FRegion;
+import com.usac.ipc.cliente.FCotizacion;
 import com.usac.ipc.user.Login;
 import com.usac.ipc.user.Registro;
 
@@ -25,6 +26,7 @@ public class Main extends javax.swing.JFrame{
         mnRegistro.setVisible(false);
         mnAdmin.setVisible(false);
         mmDeptoMuni.setVisible(false);
+        //mnCotizacion.setVisible(false);
     }
 
     /**
@@ -47,6 +49,7 @@ public class Main extends javax.swing.JFrame{
         mmDeptoMuni = new javax.swing.JMenu();
         mnDepartamentos = new javax.swing.JMenuItem();
         mnMunicipios = new javax.swing.JMenuItem();
+        mnCotizacion = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("USAC-DELIVERY");
@@ -131,6 +134,14 @@ public class Main extends javax.swing.JFrame{
 
         jMenuBar1.add(mmDeptoMuni);
 
+        mnCotizacion.setText("Cotización");
+        mnCotizacion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mnCotizacionMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(mnCotizacion);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -194,6 +205,12 @@ public class Main extends javax.swing.JFrame{
         fmunicipio.setVisible(true);
     }//GEN-LAST:event_mnMunicipiosActionPerformed
 
+    private void mnCotizacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnCotizacionMouseClicked
+        FCotizacion fcotizacion = new FCotizacion();
+        this.escritorio.add(fcotizacion);
+        fcotizacion.setVisible(true);
+    }//GEN-LAST:event_mnCotizacionMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -239,6 +256,7 @@ public class Main extends javax.swing.JFrame{
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenu mmDeptoMuni;
     private javax.swing.JMenu mnAdmin;
+    private javax.swing.JMenu mnCotizacion;
     private javax.swing.JMenuItem mnDepartamentos;
     private javax.swing.JMenuItem mnMunicipios;
     private javax.swing.JMenu mnRegistro;

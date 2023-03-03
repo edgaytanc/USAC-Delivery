@@ -72,6 +72,14 @@
             </MenuItem>
           </SubComponents>
         </Menu>
+        <Menu class="javax.swing.JMenu" name="mnCotizacion">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Cotizaci&#xf3;n"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="mnCotizacionMouseClicked"/>
+          </Events>
+        </Menu>
       </SubComponents>
     </Menu>
   </NonVisualComponents>
