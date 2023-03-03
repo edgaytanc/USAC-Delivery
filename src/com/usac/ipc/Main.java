@@ -9,6 +9,7 @@ import com.usac.ipc.admin.FDepartamento;
 import com.usac.ipc.admin.FKiosko;
 import com.usac.ipc.admin.FMunicipio;
 import com.usac.ipc.admin.FRegion;
+import com.usac.ipc.admin.Municipio;
 import com.usac.ipc.admin.Region;
 import com.usac.ipc.cliente.FCotizacion;
 import com.usac.ipc.user.Login;
@@ -32,6 +33,7 @@ public class Main extends javax.swing.JFrame implements baseDatos{
         
         cargaRegiones();
         cargaDepartamentos();
+        cargaMunicipios();
     }
     
     /**
@@ -65,6 +67,66 @@ public class Main extends javax.swing.JFrame implements baseDatos{
         departamentos.add(departamento3);
         departamentos.add(departamento4);
         departamentos.add(departamento5);
+    }
+    
+    public void cargaMunicipios(){
+        Municipio municipio1 = new Municipio("SA","Antigua Guatemala");
+        Municipio municipio2 = new Municipio("SA","Jocotenango");
+        Municipio municipio3 = new Municipio("SA","Pastores");
+        Municipio municipio4 = new Municipio("SA","Sumpango");
+        Municipio municipio5 = new Municipio("SA","Ciudad Vieja");
+        
+        Municipio municipio6 = new Municipio("GU","Guatemala");
+        Municipio municipio7 = new Municipio("GU","Mixco");
+        Municipio municipio8 = new Municipio("GU","Amatitlan");
+        Municipio municipio9 = new Municipio("GU","San Miguel Petapa");
+        Municipio municipio10 = new Municipio("GU","Villa Canales");
+        
+        Municipio municipio11 = new Municipio("ES","Escuintla");
+        Municipio municipio12 = new Municipio("ES","La Democracia");
+        Municipio municipio13 = new Municipio("ES","Siquinala");
+        Municipio municipio14 = new Municipio("ES","Masagua");
+        Municipio municipio15 = new Municipio("ES","la Gomera");
+        
+        Municipio municipio16 = new Municipio("PE","Flores");
+        Municipio municipio17 = new Municipio("PE","San Jose");
+        Municipio municipio18 = new Municipio("PE","San Benito");
+        Municipio municipio19 = new Municipio("PE","San Andres");
+        Municipio municipio20 = new Municipio("PE","la Libertad");
+        
+        Municipio municipio21 = new Municipio("JA","Jalapa");
+        Municipio municipio22 = new Municipio("JA","Monjas");
+        Municipio municipio23 = new Municipio("JA","San Pedro Pinula");
+        Municipio municipio24 = new Municipio("JA","Mataquescuintla");
+        Municipio municipio25 = new Municipio("JA","San Luis Jilotepeque");
+        
+        //Cargando al ArrayList
+        municipios.add(municipio1);
+        municipios.add(municipio2);
+        municipios.add(municipio3);
+        municipios.add(municipio4);
+        municipios.add(municipio5);
+        municipios.add(municipio6);
+        municipios.add(municipio7);
+        municipios.add(municipio8);
+        municipios.add(municipio9);
+        municipios.add(municipio10);
+        municipios.add(municipio11);
+        municipios.add(municipio12);
+        municipios.add(municipio13);
+        municipios.add(municipio14);
+        municipios.add(municipio15);
+        municipios.add(municipio16);
+        municipios.add(municipio17);
+        municipios.add(municipio18);
+        municipios.add(municipio19);
+        municipios.add(municipio20);
+        municipios.add(municipio21);
+        municipios.add(municipio22);
+        municipios.add(municipio23);
+        municipios.add(municipio24);
+        municipios.add(municipio25);
+        
     }
 
     /**

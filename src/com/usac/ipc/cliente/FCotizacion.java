@@ -5,7 +5,12 @@
 package com.usac.ipc.cliente;
 
 import com.usac.ipc.admin.Departamento;
+import com.usac.ipc.admin.Municipio;
+import com.usac.ipc.admin.Region;
 import com.usac.ipc.baseDatos;
+import java.util.ArrayList;
+import java.util.Arrays;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -26,7 +31,7 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
     private int numero;
     private int tamano;
     private float servicio;
-    
+    private float total;
     public void initVar(){
         this.origenDepto = "";
         this.origenMuni = "";
@@ -37,6 +42,7 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
         this.numero = 0;
         this.tamano = 0;
         this.servicio = 0;
+        this.total = 0;
     }
     
     public void cargaDepto(){
@@ -52,12 +58,86 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
         }
     }
     
-    public void cargaMuni(Departamento depto){
-        
+    public void cargaMuniOrigen(String codigo){
+        ArrayList<String> modelo = new ArrayList<>();
+        String[] model;
+        if(!municipios.isEmpty()){
+            for(Municipio m : municipios){
+                if(m.getCodigoMunicipio().equals(codigo)){
+                    modelo.add(m.getNombreMunicipio());
+                    
+                }
+            }
+            model = modelo.toArray(new String[modelo.size()]);
+            System.out.println(Arrays.toString(model));
+            comboOrigenMuni.setModel(new DefaultComboBoxModel<String>(model));
+        }
     }
     
-    public void cargaServicio(){
-        
+    public void cargaMuniDestino(String codigo){
+        ArrayList<String> modelo = new ArrayList<>();
+        String[] model;
+        if(!municipios.isEmpty()){
+            for(Municipio m : municipios){
+                if(m.getCodigoMunicipio().equals(codigo)){
+                    modelo.add(m.getNombreMunicipio());
+                    
+                }
+            }
+            model = modelo.toArray(new String[modelo.size()]);
+            System.out.println(Arrays.toString(model));
+            comboDestinoMuni.setModel(new DefaultComboBoxModel<String>(model));
+        }
+    }
+    
+    public String devuelveCodigo(String nombre){
+        String codigo = new String();
+        for(Departamento d: departamentos){
+            if(nombre.equals(d.getNombreDepartamento())){
+                codigo = d.getCodigoDepartamento();
+            }
+        }
+        return codigo;
+    }
+    
+    public String devuelveCodigoRegion(String nombre){
+        String codigo = new String();
+        for(Departamento d : departamentos){
+            if(nombre.equals(d.getNombreDepartamento())){
+                codigo = d.getRegionDepartamento();
+            }
+        }
+        return codigo;
+    }
+    
+    public void cargaServicio(String region){
+        for(Region r: regiones){
+            if(region.equals(r.getCodigo())){
+                lblEstandar.setText(String.valueOf(r.getEstandar()));
+                lblEspecial.setText(String.valueOf(r.getEspecial()));
+            }
+        }
+    }
+    
+    public void seleccionaTamano(){
+        if(opcPequeno.isSelected()){
+            this.tamano = 15;
+        }
+        if(opcMediano.isSelected()){
+            this.tamano = 25;
+        }
+        if(opcGrande.isSelected()){
+            this.tamano = 35;
+        }
+    }
+    
+    public void seleccionaRegion(){
+        if(opcEstandar.isSelected()){
+            this.servicio = Float.parseFloat(lblEstandar.getText());
+        }
+        if(opcEspecial.isSelected()){
+            this.servicio = Float.parseFloat(lblEspecial.getText());
+        }
     }
     
     /**
@@ -67,6 +147,8 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
         initComponents();
         initVar();
         cargaDepto();
+        cargaMuniOrigen("SA");
+        cargaMuniDestino("SA");
     }
 
     /**
@@ -84,9 +166,9 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
         lblOrigen = new javax.swing.JLabel();
         lblDestino = new javax.swing.JLabel();
         comboOrigenDepto = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        comboOrigenMuni = new javax.swing.JComboBox<>();
         comboDestinoDepto = new javax.swing.JComboBox<>();
-        jComboBox4 = new javax.swing.JComboBox<>();
+        comboDestinoMuni = new javax.swing.JComboBox<>();
         lblOrigenDepto = new javax.swing.JLabel();
         lblDestinoDepto = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -119,6 +201,8 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
         btnCancelar = new javax.swing.JButton();
         btnDescargaFact = new javax.swing.JButton();
         btnDescargaGuia = new javax.swing.JButton();
+        lblCantidad = new javax.swing.JLabel();
+        txtCantidad = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -131,7 +215,29 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
         lblDestino.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblDestino.setText("Destino");
 
+        comboOrigenDepto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboOrigenDeptoActionPerformed(evt);
+            }
+        });
+
+        comboOrigenMuni.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                comboOrigenMuniFocusGained(evt);
+            }
+        });
+        comboOrigenMuni.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                comboOrigenMuniMouseClicked(evt);
+            }
+        });
+
         comboDestinoDepto.setPreferredSize(new java.awt.Dimension(140, 22));
+        comboDestinoDepto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboDestinoDeptoActionPerformed(evt);
+            }
+        });
 
         lblOrigenDepto.setText("Departamento");
 
@@ -222,6 +328,11 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
 
         btnCotizar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnCotizar.setText("Cotizar");
+        btnCotizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCotizarActionPerformed(evt);
+            }
+        });
 
         spUno.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -271,55 +382,60 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
 
         btnDescargaGuia.setText("Descargar Guia");
 
+        lblCantidad.setText("Cantidad de Paquetes:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(lblOrigen)
+                                    .addGap(160, 160, 160))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(lblOrigenDepto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGap(56, 56, 56)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(comboOrigenDepto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(comboOrigenMuni, 0, 140, Short.MAX_VALUE)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(lblNumeroPaquetes)
+                            .addComponent(jLabel1)
+                            .addComponent(txtDireccionOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(lblOrigen)
-                                            .addGap(160, 160, 160))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(lblOrigenDepto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addGap(56, 56, 56)))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(comboOrigenDepto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jComboBox2, 0, 140, Short.MAX_VALUE)
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addComponent(lblNumeroPaquetes)
-                                    .addComponent(jLabel1)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(opcPequeno)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(opcMediano)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(opcGrande))
-                                    .addComponent(txtDireccionOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(82, 82, 82)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(txtDireccionDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblDestino)
-                                            .addComponent(lblDestinoDepto, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(comboDestinoDepto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jComboBox4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(245, 245, 245)
-                        .addComponent(btnCotizar)))
+                                .addComponent(lblCantidad)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(112, 112, 112)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(txtDireccionDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblDestino)
+                                    .addComponent(lblDestinoDepto, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(comboDestinoDepto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(comboDestinoMuni, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnCotizar)
+                            .addGap(58, 58, 58)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(opcPequeno)
+                            .addGap(18, 18, 18)
+                            .addComponent(opcMediano)
+                            .addGap(18, 18, 18)
+                            .addComponent(opcGrande)
+                            .addGap(282, 282, 282))))
                 .addGap(24, 24, 24)
                 .addComponent(spUno, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -340,7 +456,7 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
                             .addComponent(btnPago)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(btnCancelar))))
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -367,11 +483,14 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnDescargaFact)
                             .addComponent(btnDescargaGuia))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 176, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(spUno)
+                        .addGap(39, 39, 39))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(spUno, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(btnCotizar)
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(lblOrigen)
                                     .addComponent(lblDestino))
@@ -389,8 +508,8 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
                                     .addComponent(jLabel4))
                                 .addGap(9, 9, 9)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(comboOrigenMuni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(comboDestinoMuni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(lblNumeroPaquetes)
@@ -399,9 +518,13 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(txtDireccionOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtDireccionDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(35, 35, 35)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblCantidad)
+                                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(37, 37, 37)
                                 .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(opcPequeno)
                                     .addComponent(opcMediano)
@@ -409,14 +532,40 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                                .addComponent(btnCotizar)))
-                        .addGap(39, 39, 39))))
+                                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void comboOrigenMuniFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_comboOrigenMuniFocusGained
+        
+    }//GEN-LAST:event_comboOrigenMuniFocusGained
+
+    private void comboOrigenMuniMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboOrigenMuniMouseClicked
+     
+    }//GEN-LAST:event_comboOrigenMuniMouseClicked
+
+    private void comboOrigenDeptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboOrigenDeptoActionPerformed
+        String select = (String)comboOrigenDepto.getSelectedItem();
+        cargaMuniOrigen(devuelveCodigo(select));
+        
+    }//GEN-LAST:event_comboOrigenDeptoActionPerformed
+
+    private void comboDestinoDeptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboDestinoDeptoActionPerformed
+        String select = (String)comboDestinoDepto.getSelectedItem();
+        cargaMuniDestino(devuelveCodigo(select));
+        cargaServicio(devuelveCodigoRegion(select));
+    }//GEN-LAST:event_comboDestinoDeptoActionPerformed
+
+    private void btnCotizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCotizarActionPerformed
+        numero = Integer.parseInt(txtCantidad.getText());
+        seleccionaTamano();
+        seleccionaRegion();
+        this.total = this.servicio*this.tamano*numero;
+        lblTotalFact.setText("Total Q "+this.total);
+    }//GEN-LAST:event_btnCotizarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -427,12 +576,12 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
     private javax.swing.JButton btnPago;
     private javax.swing.JComboBox<String> comboDatosFacturacion;
     private javax.swing.JComboBox<String> comboDestinoDepto;
+    private javax.swing.JComboBox<String> comboDestinoMuni;
     private javax.swing.JComboBox<String> comboOrigenDepto;
+    private javax.swing.JComboBox<String> comboOrigenMuni;
     private javax.swing.ButtonGroup grupoPago;
     private javax.swing.ButtonGroup grupoServicio;
     private javax.swing.ButtonGroup grupoTamano;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -441,6 +590,7 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel lblCantidad;
     private javax.swing.JLabel lblDatosFacturacion;
     private javax.swing.JLabel lblDestino;
     private javax.swing.JLabel lblDestinoDepto;
@@ -459,6 +609,7 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
     private javax.swing.JRadioButton opcPequeno;
     private javax.swing.JRadioButton opcTarjeta;
     private javax.swing.JSeparator spUno;
+    private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtDireccionDestino;
     private javax.swing.JTextField txtDireccionOrigen;
     // End of variables declaration//GEN-END:variables
