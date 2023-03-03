@@ -158,7 +158,7 @@ public class FDepartamento extends javax.swing.JInternalFrame implements baseDat
     public void cargaRegion(){
         if(!regiones.isEmpty()){
             for(Region r : regiones){
-                comboRegion.addItem(r.getCodigo()+" "+r.getNombre());
+                comboRegion.addItem(r.getCodigo());
             }
         }else
         {

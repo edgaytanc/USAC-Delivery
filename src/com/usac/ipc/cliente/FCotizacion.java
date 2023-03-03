@@ -40,7 +40,16 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
     }
     
     public void cargaDepto(){
-        
+        if(!departamentos.isEmpty()){
+            for(Departamento d : departamentos){
+                comboOrigenDepto.addItem(d.getNombreDepartamento());
+                comboDestinoDepto.addItem(d.getNombreDepartamento());
+            }
+        }else
+        {
+            comboOrigenDepto.addItem("");
+            comboDestinoDepto.addItem("");
+        }
     }
     
     public void cargaMuni(Departamento depto){
@@ -57,6 +66,7 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
     public FCotizacion() {
         initComponents();
         initVar();
+        cargaDepto();
     }
 
     /**

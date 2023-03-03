@@ -4,10 +4,12 @@
  */
 package com.usac.ipc;
 
+import com.usac.ipc.admin.Departamento;
 import com.usac.ipc.admin.FDepartamento;
 import com.usac.ipc.admin.FKiosko;
 import com.usac.ipc.admin.FMunicipio;
 import com.usac.ipc.admin.FRegion;
+import com.usac.ipc.admin.Region;
 import com.usac.ipc.cliente.FCotizacion;
 import com.usac.ipc.user.Login;
 import com.usac.ipc.user.Registro;
@@ -16,7 +18,7 @@ import com.usac.ipc.user.Registro;
  *
  * @author David
  */
-public class Main extends javax.swing.JFrame{
+public class Main extends javax.swing.JFrame implements baseDatos{
     
     /**
      * Creates new form Main
@@ -27,6 +29,42 @@ public class Main extends javax.swing.JFrame{
         mnAdmin.setVisible(false);
         mmDeptoMuni.setVisible(false);
         //mnCotizacion.setVisible(false);
+        
+        cargaRegiones();
+        cargaDepartamentos();
+    }
+    
+    /**
+     * Quemado de datos de la aplicacion
+     */
+    public void cargaRegiones(){
+        Region region1 = new Region("M","Metropolitana",35,25);
+        Region region2 = new Region("NT","Norte",(float)68.50,(float)45.55);
+        Region region3 = new Region("NO","Nororiente",(float)58.68,(float)35.48);
+        Region region4 = new Region("SO","Suroriente",(float)38.68,(float)32.48);
+        Region region5 = new Region("SOC","Suroccidente",(float)34.0,(float)29.0);
+        Region region6 = new Region("NOC","Noroccidente",(float)44.5,(float)40.0);
+        
+        regiones.add(region1);
+        regiones.add(region2);
+        regiones.add(region3);
+        regiones.add(region4);
+        regiones.add(region5);
+        regiones.add(region6);
+    }
+    
+    public void cargaDepartamentos(){
+        Departamento departamento1= new Departamento("SA","NOC","Sacatepequez");
+        Departamento departamento2= new Departamento("GU","M","Guatemala");
+        Departamento departamento3= new Departamento("ES","SO","Escuintla");
+        Departamento departamento4= new Departamento("PE","NO","Peten");
+        Departamento departamento5= new Departamento("JA","SO","Jalapa");
+        
+        departamentos.add(departamento1);
+        departamentos.add(departamento2);
+        departamentos.add(departamento3);
+        departamentos.add(departamento4);
+        departamentos.add(departamento5);
     }
 
     /**
