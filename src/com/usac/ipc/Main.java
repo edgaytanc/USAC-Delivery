@@ -12,6 +12,7 @@ import com.usac.ipc.admin.FRegion;
 import com.usac.ipc.admin.Municipio;
 import com.usac.ipc.admin.Region;
 import com.usac.ipc.cliente.FCotizacion;
+import com.usac.ipc.cliente.FTarjeta;
 import com.usac.ipc.user.Login;
 import com.usac.ipc.user.Registro;
 
@@ -29,7 +30,8 @@ public class Main extends javax.swing.JFrame implements baseDatos{
         mnRegistro.setVisible(false);
         mnAdmin.setVisible(false);
         mmDeptoMuni.setVisible(false);
-        //mnCotizacion.setVisible(false);
+        mnCotizacion.setVisible(false);
+        mnTarjeta.setVisible(false);
         
         cargaRegiones();
         cargaDepartamentos();
@@ -149,6 +151,7 @@ public class Main extends javax.swing.JFrame implements baseDatos{
         mmDeptoMuni = new javax.swing.JMenu();
         mnDepartamentos = new javax.swing.JMenuItem();
         mnMunicipios = new javax.swing.JMenuItem();
+        mnTarjeta = new javax.swing.JMenu();
         mnCotizacion = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -234,6 +237,14 @@ public class Main extends javax.swing.JFrame implements baseDatos{
 
         jMenuBar1.add(mmDeptoMuni);
 
+        mnTarjeta.setText("Registro de Tarjeta");
+        mnTarjeta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mnTarjetaMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(mnTarjeta);
+
         mnCotizacion.setText("Cotización");
         mnCotizacion.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -311,6 +322,12 @@ public class Main extends javax.swing.JFrame implements baseDatos{
         fcotizacion.setVisible(true);
     }//GEN-LAST:event_mnCotizacionMouseClicked
 
+    private void mnTarjetaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnTarjetaMouseClicked
+        FTarjeta ftarjeta = new FTarjeta();
+        this.escritorio.add(ftarjeta);
+        ftarjeta.setVisible(true);
+    }//GEN-LAST:event_mnTarjetaMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -360,5 +377,6 @@ public class Main extends javax.swing.JFrame implements baseDatos{
     private javax.swing.JMenuItem mnDepartamentos;
     private javax.swing.JMenuItem mnMunicipios;
     private javax.swing.JMenu mnRegistro;
+    private javax.swing.JMenu mnTarjeta;
     // End of variables declaration//GEN-END:variables
 }

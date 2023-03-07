@@ -111,8 +111,7 @@ public class Registro extends javax.swing.JInternalFrame implements Users {
 
         lblRol.setText("Rol");
 
-        comboRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Usuario Individual", "Usuario Empresarial", "Kiosco", " " }));
-        comboRol.setSelectedIndex(3);
+        comboRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Usuario", "Kiosko", " " }));
 
         lblFecha.setText("Fecha de nacimiento");
 

@@ -19,8 +19,13 @@ public class Usuarios implements Users {
     public Usuarios() {
         Usuario user = new Usuario("edgaytanc@gmail.com","David",
                 "Gaytan","edgc2001--",null,null,
-                null,null,null,null,null,null );
+                null,null,null,null,"admin",null );
         add(user);
+        
+        Usuario normal = new Usuario("pcychips@gmail.com","Edgar",
+                "Gaytan","edgc2001--",null,null,
+                null,null,null,null,"Usuario",null);
+        add(normal);
         
     }
     

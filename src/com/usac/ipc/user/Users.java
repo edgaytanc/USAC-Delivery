@@ -15,4 +15,29 @@ public interface Users {
     
     public void add(Usuario user);
     
+    public static void modificaActivo(String correo){
+        int cont=0;
+        for(Usuario u: usuarios){
+            if(u.getCorreo().equals(correo)){
+                if(u.getActivo()==false){
+                    u.setActivo(true);
+                }
+                else{
+                    u.setActivo(false);
+                }
+                usuarios.set(cont, u);
+            }
+            cont++;
+        }
+    }
+    
+    public static Usuario getUsuarioActivo(){
+        for(Usuario u : usuarios){
+            if(u.getActivo()==true){
+                return u;
+            }
+        }
+        return null;
+    }
+    
 }

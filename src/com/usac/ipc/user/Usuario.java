@@ -21,6 +21,7 @@ public class Usuario {
     private String telefono;
     private String rol;
     private String foto;
+    private boolean activo;
 
     public Usuario(String correo, String nombre, String apellido, String contrasena, String dpi, String fechaNac, String genero, String nacionalidad, String alias, String telefono, String rol, String foto) {
         this.correo = correo;
@@ -35,6 +36,7 @@ public class Usuario {
         this.telefono = telefono;
         this.rol = rol;
         this.foto = foto;
+        this.activo = false;
     }
 
     public String getCorreo() {
@@ -131,6 +133,14 @@ public class Usuario {
 
     public void setFoto(String foto) {
         this.foto = foto;
+    }
+    
+    public boolean getActivo(){
+        return activo;
+    }
+    
+    public void setActivo(boolean activo){
+        this.activo = activo;
     }
     
     

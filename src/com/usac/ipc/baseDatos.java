@@ -8,6 +8,7 @@ import com.usac.ipc.admin.Departamento;
 import com.usac.ipc.admin.Kiosko;
 import com.usac.ipc.admin.Municipio;
 import com.usac.ipc.admin.Region;
+import com.usac.ipc.cliente.Tarjeta;
 import java.util.ArrayList;
 
 /**
@@ -19,6 +20,9 @@ public interface baseDatos {
     static ArrayList<Region> regiones = new ArrayList<>();
     static ArrayList<Departamento> departamentos = new ArrayList<>();
     static ArrayList<Municipio> municipios = new ArrayList<>();
+    static ArrayList<Tarjeta> tarjetas = new ArrayList<>();
+    static String correoCliente = new String();
+    
     
     //metodos de acceso
     //public void addKiosko(Kiosko k);

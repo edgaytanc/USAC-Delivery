@@ -4,6 +4,7 @@
  */
 package com.usac.ipc.user;
 
+import com.usac.ipc.baseDatos;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -13,7 +14,7 @@ import javax.swing.SwingUtilities;
  *
  * @author David
  */
-public class Login extends javax.swing.JInternalFrame  implements Users {
+public class Login extends javax.swing.JInternalFrame  implements Users,baseDatos {
     Usuarios users = new Usuarios();
     /**
      * Creates new form Login
@@ -98,7 +99,7 @@ public class Login extends javax.swing.JInternalFrame  implements Users {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        System.out.println(usuarios.get(0).getNombre());
+//        System.out.println(usuarios.get(0).getNombre());
         // Obtener el JFrame desde el JInternalFrame
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
         // Obtener la barra de menú del JFrame
@@ -107,12 +108,49 @@ public class Login extends javax.swing.JInternalFrame  implements Users {
         JMenu menuRegistro = menuBar.getMenu(1);
         JMenu menuAdmin = menuBar.getMenu(2);
         JMenu menuDeptoMuni = menuBar.getMenu(3);
+        JMenu menuTarjeta = menuBar.getMenu(4);
+        JMenu menuCotizacion = menuBar.getMenu(5);
         for(Usuario u : usuarios){
             if(u.getCorreo().equals(txtUsuario.getText())){
-                this.setVisible(false);
-                menuRegistro.setVisible(true);
-                menuAdmin.setVisible(true);
-                menuDeptoMuni.setVisible(true);
+                if(u.getContrasena().equals(txtContrasena.getText())){
+                    switch (u.getRol()) {
+                        case "admin":
+                            menuRegistro.setVisible(true);
+                            menuAdmin.setVisible(true);
+                            menuDeptoMuni.setVisible(true);
+                            
+                            menuTarjeta.setVisible(false);
+                            menuCotizacion.setVisible(false);
+                            break;
+                        case "Kiosko":
+                            menuRegistro.setVisible(false);
+                            menuAdmin.setVisible(false);
+                            menuDeptoMuni.setVisible(false);
+                            menuTarjeta.setVisible(false);
+                            menuCotizacion.setVisible(false);
+                            
+                            break;
+                        case "Usuario":
+                            menuRegistro.setVisible(false);
+                            menuAdmin.setVisible(false);
+                            menuDeptoMuni.setVisible(false);
+                            
+                            menuTarjeta.setVisible(true);
+                            menuCotizacion.setVisible(true);
+                            break;
+                        default:
+                            break;
+                    }
+                    this.setVisible(false);
+                    Usuario uu = Users.getUsuarioActivo();
+                    Users.modificaActivo(uu.getCorreo());
+                    Users.modificaActivo(txtUsuario.getText());
+                    
+                }else{
+                    lblMensaje.setText("Contraseña Incorrecta");
+                }
+                
+                
             }else{
                 lblMensaje.setText("Usuario No encontrado");
             }
