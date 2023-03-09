@@ -4,11 +4,15 @@
  */
 package com.usac.ipc.cliente;
 
+import com.usac.ipc.baseDatos;
+import com.usac.ipc.user.Users;
+import com.usac.ipc.user.Usuario;
+
 /**
  *
  * @author David
  */
-public class FDatosFactura extends javax.swing.JInternalFrame {
+public class FDatosFactura extends javax.swing.JInternalFrame implements baseDatos{
 
     /**
      * Creates new form FDatosFactura
@@ -45,6 +49,11 @@ public class FDatosFactura extends javax.swing.JInternalFrame {
         lblNit.setText("Nit");
 
         btnIngresar.setText("Ingresar");
+        btnIngresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -60,9 +69,7 @@ public class FDatosFactura extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblNombreCompleto, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblDireccion, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblNit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(lblNit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNombreCompleto, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -92,6 +99,15 @@ public class FDatosFactura extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
+        Usuario u = Users.getUsuarioActivo();
+        DatosFactura datosFactura = new DatosFactura(u.getCorreo(),
+                txtNombreCompleto.getText(),txtDireccion.getText(),txtNit.getText());
+        System.out.println(datosFactura.getCorreoUsuario());
+        datosFacturas.add(datosFactura);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnIngresarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

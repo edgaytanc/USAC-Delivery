@@ -109,7 +109,8 @@ public class Login extends javax.swing.JInternalFrame  implements Users,baseDato
         JMenu menuAdmin = menuBar.getMenu(2);
         JMenu menuDeptoMuni = menuBar.getMenu(3);
         JMenu menuTarjeta = menuBar.getMenu(4);
-        JMenu menuCotizacion = menuBar.getMenu(5);
+        JMenu menuDatosFactura = menuBar.getMenu(5);
+        JMenu menuCotizacion = menuBar.getMenu(6);
         for(Usuario u : usuarios){
             if(u.getCorreo().equals(txtUsuario.getText())){
                 if(u.getContrasena().equals(txtContrasena.getText())){
@@ -121,6 +122,7 @@ public class Login extends javax.swing.JInternalFrame  implements Users,baseDato
                             
                             menuTarjeta.setVisible(false);
                             menuCotizacion.setVisible(false);
+                            menuDatosFactura.setVisible(false);
                             break;
                         case "Kiosko":
                             menuRegistro.setVisible(false);
@@ -128,6 +130,7 @@ public class Login extends javax.swing.JInternalFrame  implements Users,baseDato
                             menuDeptoMuni.setVisible(false);
                             menuTarjeta.setVisible(false);
                             menuCotizacion.setVisible(false);
+                            menuDatosFactura.setVisible(false);
                             
                             break;
                         case "Usuario":
@@ -137,13 +140,14 @@ public class Login extends javax.swing.JInternalFrame  implements Users,baseDato
                             
                             menuTarjeta.setVisible(true);
                             menuCotizacion.setVisible(true);
+                            menuDatosFactura.setVisible(true);
                             break;
                         default:
                             break;
                     }
                     this.setVisible(false);
-                    Usuario uu = Users.getUsuarioActivo();
-                    Users.modificaActivo(uu.getCorreo());
+                    //Usuario uu = Users.getUsuarioActivo();
+                    //Users.modificaActivo(uu.getCorreo());
                     Users.modificaActivo(txtUsuario.getText());
                     
                 }else{

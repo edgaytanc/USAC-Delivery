@@ -8,15 +8,20 @@ import com.usac.ipc.admin.Departamento;
 import com.usac.ipc.admin.Municipio;
 import com.usac.ipc.admin.Region;
 import com.usac.ipc.baseDatos;
+import com.usac.ipc.user.Users;
+import com.usac.ipc.user.Usuario;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Random;
 import javax.swing.DefaultComboBoxModel;
+import java.io.*;
 
 /**
  *
  * @author David
  */
-public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos {
+public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos,Users {
 
     
     /**
@@ -28,10 +33,14 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
     private String destinoDepto;
     private String destinoMuni;
     private String destinoDireccion;
+    private String tipoPago;
     private int numero;
     private int tamano;
     private float servicio;
     private float total;
+    
+    private static final String CHARACTERS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_";
+    
     public void initVar(){
         this.origenDepto = "";
         this.origenMuni = "";
@@ -39,10 +48,15 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
         this.destinoDepto = "";
         this.destinoMuni = "";
         this.destinoDireccion = "";
+        this.tipoPago="";
         this.numero = 0;
         this.tamano = 0;
         this.servicio = 0;
         this.total = 0;
+    }
+    
+    public void add(Usuario usuario){
+        
     }
     
     public void cargaDepto(){
@@ -55,6 +69,18 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
         {
             comboOrigenDepto.addItem("");
             comboDestinoDepto.addItem("");
+        }
+    }
+    
+    public void cargaDatosFactura(){
+        Usuario u = Users.getUsuarioActivo();
+        //System.out.println(u.getCorreo());
+        if(!datosFacturas.isEmpty()){
+            for(DatosFactura df : datosFacturas){
+                if(u.getCorreo().equals(df.getCorreoUsuario())){
+                    comboDatosFacturacion.addItem(df.getDireccion());
+                }
+            }
         }
     }
     
@@ -140,6 +166,37 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
         }
     }
     
+    public void seleccionaPago(){
+        if(opcEntrega.isSelected()){
+            this.tipoPago = "Contra Entrega";
+        }
+        if(opcTarjeta.isSelected()){
+            this.tipoPago = "Tarjeta";
+        }
+    }
+    
+     public String generaStringAleatorio() {
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < 5; i++) {
+            int randomIndex = random.nextInt(CHARACTERS.length());
+            sb.append(CHARACTERS.charAt(randomIndex));
+        }
+        return sb.toString();
+    }
+     
+     public String buscaNit(String dir){
+         String nit = null;
+         for(DatosFactura datosFactura : datosFacturas){
+             if(datosFactura.getDireccion().equals(dir)){
+                 nit = datosFactura.getNit();
+             }
+         }
+         return nit;
+     }
+     
+     
+    
     /**
      * Creates new form FCotizacion
      */
@@ -149,6 +206,7 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
         cargaDepto();
         cargaMuniOrigen("SA");
         cargaMuniDestino("SA");
+        cargaDatosFactura();
     }
 
     /**
@@ -375,10 +433,25 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
         );
 
         btnPago.setText("Realizar Pago y Enviar");
+        btnPago.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPagoActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar Orden");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnDescargaFact.setText("Descargar Factura");
+        btnDescargaFact.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDescargaFactActionPerformed(evt);
+            }
+        });
 
         btnDescargaGuia.setText("Descargar Guia");
 
@@ -565,7 +638,45 @@ public class FCotizacion extends javax.swing.JInternalFrame implements baseDatos
         seleccionaRegion();
         this.total = this.servicio*this.tamano*numero;
         lblTotalFact.setText("Total Q "+this.total);
+        
+        this.origenDepto = comboOrigenDepto.getSelectedItem().toString();
+        this.origenMuni = comboOrigenMuni.getSelectedItem().toString();
+        this.destinoDepto = comboDestinoDepto.getSelectedItem().toString();
+        this.destinoMuni = comboDestinoMuni.getSelectedItem().toString();
+        this.numero = Integer.parseInt(txtCantidad.getText());
+        
     }//GEN-LAST:event_btnCotizarActionPerformed
+
+    private void btnPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagoActionPerformed
+        int numeroFactura = facturas.size()+1;
+        String codigoPaquete = "IPC1D"+generaStringAleatorio();
+        String nit = buscaNit(comboDatosFacturacion.getSelectedItem().toString());
+        String origen = this.origenDepto+" "+this.origenMuni+" "+this.origenDireccion;
+        String destino = this.destinoDepto+" "+this.destinoMuni+" "+this.destinoDireccion;
+        
+        Factura factura = new Factura(numeroFactura,codigoPaquete,origen,
+                destino,nit,this.tipoPago,String.valueOf(this.tamano),
+                this.numero,this.total);
+        
+        facturas.add(factura);
+        
+        Guia guia = new Guia(codigoPaquete,origen, destino,this.tipoPago,
+                String.valueOf(this.tamano),this.numero,new Date(),
+                this.total);
+        
+        guias.add(guia);
+    }//GEN-LAST:event_btnPagoActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnDescargaFactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescargaFactActionPerformed
+        StringBuilder html = new StringBuilder();
+        html.append("<html>");
+        html.append("<head><title>Factura</title></head>");
+        
+    }//GEN-LAST:event_btnDescargaFactActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

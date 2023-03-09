@@ -12,6 +12,7 @@ import com.usac.ipc.admin.FRegion;
 import com.usac.ipc.admin.Municipio;
 import com.usac.ipc.admin.Region;
 import com.usac.ipc.cliente.FCotizacion;
+import com.usac.ipc.cliente.FDatosFactura;
 import com.usac.ipc.cliente.FTarjeta;
 import com.usac.ipc.user.Login;
 import com.usac.ipc.user.Registro;
@@ -32,6 +33,7 @@ public class Main extends javax.swing.JFrame implements baseDatos{
         mmDeptoMuni.setVisible(false);
         mnCotizacion.setVisible(false);
         mnTarjeta.setVisible(false);
+        mdDatosFactura.setVisible(false);
         
         cargaRegiones();
         cargaDepartamentos();
@@ -152,6 +154,7 @@ public class Main extends javax.swing.JFrame implements baseDatos{
         mnDepartamentos = new javax.swing.JMenuItem();
         mnMunicipios = new javax.swing.JMenuItem();
         mnTarjeta = new javax.swing.JMenu();
+        mdDatosFactura = new javax.swing.JMenu();
         mnCotizacion = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -166,7 +169,7 @@ public class Main extends javax.swing.JFrame implements baseDatos{
         escritorio.setLayout(escritorioLayout);
         escritorioLayout.setHorizontalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addGap(0, 890, Short.MAX_VALUE)
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -244,6 +247,14 @@ public class Main extends javax.swing.JFrame implements baseDatos{
             }
         });
         jMenuBar1.add(mnTarjeta);
+
+        mdDatosFactura.setText("Datos de facturacion");
+        mdDatosFactura.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mdDatosFacturaMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(mdDatosFactura);
 
         mnCotizacion.setText("Cotización");
         mnCotizacion.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -328,6 +339,12 @@ public class Main extends javax.swing.JFrame implements baseDatos{
         ftarjeta.setVisible(true);
     }//GEN-LAST:event_mnTarjetaMouseClicked
 
+    private void mdDatosFacturaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mdDatosFacturaMouseClicked
+        FDatosFactura fDatosFactura = new FDatosFactura();
+        this.escritorio.add(fDatosFactura);
+        fDatosFactura.setVisible(true);
+    }//GEN-LAST:event_mdDatosFacturaMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -371,6 +388,7 @@ public class Main extends javax.swing.JFrame implements baseDatos{
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenu mdDatosFactura;
     private javax.swing.JMenu mmDeptoMuni;
     private javax.swing.JMenu mnAdmin;
     private javax.swing.JMenu mnCotizacion;

@@ -114,7 +114,7 @@ public class FTarjeta extends javax.swing.JInternalFrame implements baseDatos,Us
         Usuario u = Users.getUsuarioActivo();
         Tarjeta tarjeta = new Tarjeta(u.getCorreo(),
                 txtNombre.getText(),txtNumero.getText(),dcVencimiento.toString());
-        System.out.println(tarjeta.getCorreoUsuario());
+        //System.out.println(tarjeta.getCorreoUsuario());
         tarjetas.add(tarjeta);
         this.setVisible(false);
     }//GEN-LAST:event_btnIngresarActionPerformed

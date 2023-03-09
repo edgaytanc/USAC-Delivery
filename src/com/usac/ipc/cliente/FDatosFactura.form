@@ -35,10 +35,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="lblNombreCompleto" alignment="1" min="-2" max="-2" attributes="0"/>
                           <Component id="lblDireccion" pref="112" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="lblNit" max="32767" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="lblNit" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -103,6 +100,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Ingresar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIngresarActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
